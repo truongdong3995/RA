@@ -1,5 +1,10 @@
 package Bai3;
 
+import Bai3.exception.BirthdayException;
+import Bai3.exception.EmailException;
+import Bai3.exception.PhoneException;
+import Bai3.validation.EmployeeValidator;
+
 import java.util.Scanner;
 
 public class Employee {
@@ -104,7 +109,7 @@ public class Employee {
      * @param  employees
      * @param employeeType
      */
-    public void inputData(Scanner scanner, Employee[] employees, int employeeType) {
+    public void inputData(Scanner scanner, Employee[] employees, int employeeType) throws BirthdayException, PhoneException, EmailException {
         System.out.println("Hãy nhập thông tin của employee:");
         // Nhập ID, check nếu nó tồn tại rồi thì bắt nhập lại
         do {
@@ -114,14 +119,24 @@ public class Employee {
 
         // Bỏ qua dòng trống khi nhập int
         scanner.nextLine();
+
         System.out.println("FullName:");
         this.fullName = scanner.nextLine();
         System.out.println("BirthDay:");
         this.birthDay = scanner.nextLine();
+        // Validate Birthday
+        EmployeeValidator.checkBirthday(this.birthDay);
         System.out.println("Phone:");
         this.phone = scanner.nextLine();
+        // Validate Phone
+        EmployeeValidator.checkPhone(this.phone);
         System.out.println("Email:");
         this.email = scanner.nextLine();
+        // Validate Email
+        EmployeeValidator.checkEmail(this.email);
+        // Nếu validate không có exception nào xảy ra thì break khỏi while
+        // Nếu có lỗi thì nó sẽ nhảy vào catch và sẽ ko break ra khỏi vòng lặp
+
         this.employeeType = employeeType;
     }
 

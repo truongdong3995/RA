@@ -1,5 +1,9 @@
 package Bai3;
 
+import Bai3.exception.BirthdayException;
+import Bai3.exception.EmailException;
+import Bai3.exception.PhoneException;
+
 import java.util.Scanner;
 
 /**
@@ -32,7 +36,7 @@ public class Intern extends Employee{
         this.universityName = universityName;
     }
 
-    public void inputData(Scanner scanner, Employee[] employees, int employeeType) {
+    public void inputData(Scanner scanner, Employee[] employees, int employeeType) throws BirthdayException, PhoneException, EmailException {
         // Gọi function của lớp cha
         super.inputData(scanner, employees, employeeType);
         // Bổ sung thêm nhập thông tin riêng

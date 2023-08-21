@@ -1,5 +1,9 @@
 package Bai3;
 
+import Bai3.exception.BirthdayException;
+import Bai3.exception.EmailException;
+import Bai3.exception.PhoneException;
+
 import java.util.Scanner;
 
 public class Main {
@@ -39,26 +43,35 @@ public class Main {
                         System.out.println("2. Nhân viên mới ra trường (Fresher)");
                         System.out.println("3. Nhân viên thực tập (Intern)");
                         int employeeType = scanner.nextInt();
+                        try {
+                            switch (employeeType) {
+                                case 1:
+                                    employee = new Experience();
+                                    employee.inputData(scanner, employeeManager.getAllEmployee(), EXPERIENCE_TYPE);
+                                    break;
+                                case 2:
+                                    employee = new Fresher();
+                                    employee.inputData(scanner, employeeManager.getAllEmployee(), FRESHER_TYPE);
+                                    break;
+                                case 3:
+                                    employee = new Intern();
+                                    employee.inputData(scanner, employeeManager.getAllEmployee(), INTERN_TYPE);
+                                    break;
+                                default:
+                                    System.out.println("Employee type nhập vào không tồn tại.\n Vui lòng nhập lại.");
+                            }
 
-                        switch (employeeType) {
-                            case 1:
-                                employee = new Experience();
-                                employee.inputData(scanner, employeeManager.getAllEmployee(), EXPERIENCE_TYPE);
-                                break;
-                            case 2:
-                                employee = new Fresher();
-                                employee.inputData(scanner, employeeManager.getAllEmployee(), FRESHER_TYPE);
-                                break;
-                            case 3:
-                                employee = new Intern();
-                                employee.inputData(scanner, employeeManager.getAllEmployee(), INTERN_TYPE);
-                                break;
-                            default:
-                                System.out.println("Employee type nhập vào không tồn tại.\n Vui lòng nhập lại.");
+                            // Thêm employee
+                            employeeManager.addEmployee(employee);
+
+                            // Bắt và xử lí các ngoại lệ tại function inputData có thể xảy ra
+                            // Ở đây ta sẽ xử lí in ra lỗi và thoát ra khỏi chức năng thêm nhân viên
+                            // Có thể tùy chỉnh xử lí dựa vào yêu cầu hoặc ý muốn của bản thân
+                        } catch (BirthdayException | PhoneException | EmailException e) {
+                            System.out.println("Thông tin nhập vào chưa đúng định dạng. Chi tiết: ");
+                            System.out.println(e.getMessage());
+                            break;
                         }
-
-                        // Thêm employee
-                        employeeManager.addEmployee(employee);
                     } while (employee == null);
                     break;
                 case 2:
@@ -151,7 +164,7 @@ public class Main {
             }
 
             System.out.println("***************************");
-            System.out.println("Bạn có muốn tiếp tục(Y/N)");
+            System.out.println("Bạn có muốn tiếp tục dùng menu không?(Y/N)");
             String continueValue = scanner.nextLine();
             // Nếu chọn nhập N sẽ out chương trình
             if (continueValue.equals("N")) {
